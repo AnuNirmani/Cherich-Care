@@ -1,0 +1,104 @@
+name: cherich_care_2
+description: "A new Flutter project."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.2.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  url_launcher: ^6.1.8
+
+  font_awesome_flutter: ^10.4.0
+
+  fl_chart: ^0.69.2 # Compatible version with Flutter SDK
+
+  table_calendar: ^3.0.7
+
+  cupertino_icons: ^1.0.8
+  firebase_core: ^3.8.1
+  firebase_auth: ^5.3.4
+  firebase_database: ^11.2.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/allgood.png
+    - assets/images/allbad.png
+    - assets/images/book.png
+    - assets/images/calender.png
+    - assets/images/chart.png
+    - assets/images/doc.png
+    - assets/images/doc_con_step1.png
+    - assets/images/doc_con_step4.png
+    - assets/images/fb.png
+    - assets/images/fertile.png
+    - assets/images/flow.png
+    - assets/images/flow1.png
+    - assets/images/futureperiod.png
+    - assets/images/google.png
+    - assets/images/greenright.png
+    - assets/images/hand.png
+    - assets/images/home.png
+    - assets/images/info.png
+    - assets/images/insights.png
+    - assets/images/instagram.png
+    - assets/images/location.png
+    - assets/images/logo.png
+    - assets/images/logo1.png
+    - assets/images/medecide.png
+    - assets/images/note.png
+    - assets/images/note1.png
+    - assets/images/note2.png
+    - assets/images/ovulation.png
+    - assets/images/period.png
+    - assets/images/pin.png
+    - assets/images/profile.png
+    - assets/images/profile1.png
+    - assets/images/profile2.png
+    - assets/images/profile3.png
+    - assets/images/profile4.png
+    - assets/images/profile5.png
+    - assets/images/profile6.png
+    - assets/images/q.png
+    - assets/images/rf1.png
+    - assets/images/rf2.png
+    - assets/images/rf3.png
+    - assets/images/rf4.png
+    - assets/images/rf5.png
+    - assets/images/rf6.png
+    - assets/images/rf7.png
+    - assets/images/rf8.png
+    - assets/images/rf9.png
+    - assets/images/savesymptoms2.png
+    - assets/images/selfexam.png
+    - assets/images/selfexam1.png
+    - assets/images/selfexam2.png
+    - assets/images/selfexam3.png
+    - assets/images/sound.png
+    - assets/images/sym1.png
+    - assets/images/sym2.png
+    - assets/images/sym3.png
+    - assets/images/sym4.png
+    - assets/images/sym5.png
+    - assets/images/sym6.png
+    - assets/images/sym7.png
+    - assets/images/sym8.png
+    - assets/images/sym9.png
+    - assets/images/sym10.png
+    - assets/images/sym11.png
+    - assets/images/sym12.png
+    - assets/images/symptoms.png
+    - assets/images/video.png
+    - assets/images/web.png
+    - assets/images/whatsapp.png

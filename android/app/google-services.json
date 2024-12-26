@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "772075656690",
+    "project_id": "cherishcarecare",
+    "storage_bucket": "cherishcarecare.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:772075656690:android:ac4320884767705965076b",
+        "android_client_info": {
+          "package_name": "com.example.cherich_care_2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNMP3ZG_eciUuhYXT3Bp2_hJZhvSvRzII"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
