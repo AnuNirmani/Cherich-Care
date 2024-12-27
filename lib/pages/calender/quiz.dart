@@ -119,6 +119,8 @@ class OvulationPage extends StatelessWidget {
   }
 }
 
+
+
 class FertilePage extends StatelessWidget {
   const FertilePage({Key? key}) : super(key: key);
 
@@ -239,6 +241,8 @@ class FertilePage extends StatelessWidget {
 
 
 
+
+
 class StartEndPeriodPage extends StatelessWidget {
   const StartEndPeriodPage({Key? key}) : super(key: key);
 
@@ -332,6 +336,10 @@ class StartEndPeriodPage extends StatelessWidget {
     );
   }
 }
+
+
+
+
 
 class ChangeDeletePeriodPage extends StatelessWidget {
   const ChangeDeletePeriodPage({Key? key}) : super(key: key);

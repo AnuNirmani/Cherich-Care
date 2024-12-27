@@ -1,6 +1,6 @@
-import 'package:cherich_care_2/pages/save_symptoms2.dart';
+import 'package:cherich_care_2/pages/self_exam/save_symptoms2.dart';
 import 'package:cherich_care_2/services/firebase.dart';
-import 'package:cherich_care_2/pages/save_symptoms.dart';
+import 'package:cherich_care_2/pages/self_exam/save_symptoms.dart';
 import 'package:flutter/material.dart';
 
 class ReviewSymptoms extends StatefulWidget {

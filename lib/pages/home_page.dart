@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cherich_care_2/pages/calender/calender.dart';
 import 'package:cherich_care_2/pages/insights/insights.dart';
 import 'package:cherich_care_2/pages/profile/profile.dart';
-import 'package:cherich_care_2/pages/self_exam.dart';
+import 'package:cherich_care_2/pages/self_exam/self_exam.dart';
 import 'package:cherich_care_2/pages/symptoms/symptoms.dart';
 import 'chart.dart';
 import 'notes.dart';

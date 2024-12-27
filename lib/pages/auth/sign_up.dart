@@ -1,5 +1,5 @@
 import 'package:cherich_care_2/main.dart';
-import 'package:cherich_care_2/pages/sign_in.dart';
+import 'package:cherich_care_2/pages/auth/sign_in.dart';
 import 'package:cherich_care_2/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher

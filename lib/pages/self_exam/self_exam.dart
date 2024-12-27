@@ -2,7 +2,7 @@ import 'package:cherich_care_2/pages/calender/calender.dart';
 import 'package:cherich_care_2/pages/self_exam/check_area.dart';
 import 'package:cherich_care_2/pages/self_exam/feel_with.dart';
 import 'package:cherich_care_2/pages/self_exam/pay_attention.dart';
-import 'package:cherich_care_2/pages/self_count.dart';
+import 'package:cherich_care_2/pages/self_exam/self_count.dart';
 import 'package:cherich_care_2/pages/symptoms/view_symptoms.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';

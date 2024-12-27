@@ -1,4 +1,4 @@
-import 'package:cherich_care_2/pages/self_exam.dart';
+import 'package:cherich_care_2/pages/self_exam/self_exam.dart';
 import 'package:flutter/material.dart';
 
 class SaveSymptoms2 extends StatelessWidget {

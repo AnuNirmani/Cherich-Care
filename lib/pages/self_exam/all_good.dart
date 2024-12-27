@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home_page.dart'; // Import the HomePage
+import '../home_page.dart'; // Import the HomePage
 
 class AllGood extends StatelessWidget {
   @override

@@ -1,4 +1,4 @@
-import 'package:cherich_care_2/pages/review_symptoms.dart';
+import 'package:cherich_care_2/pages/self_exam/review_symptoms.dart';
 import 'package:flutter/material.dart';
 
 class AllBad extends StatelessWidget {

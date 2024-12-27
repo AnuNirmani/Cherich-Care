@@ -1,12 +1,15 @@
+import 'package:cherich_care_2/pages/calender/report.dart';
 import 'package:cherich_care_2/pages/notes.dart';
 import 'package:cherich_care_2/pages/calender/notes_page.dart';
 import 'package:cherich_care_2/pages/calender/quiz.dart';
-import 'package:cherich_care_2/pages/review_symptoms.dart';
+import 'package:cherich_care_2/pages/self_exam/review_symptoms.dart';
 import 'package:cherich_care_2/services/firebase.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+
+
 
 class PeriodPage extends StatelessWidget {
   const PeriodPage({Key? key}) : super(key: key);
@@ -126,6 +129,11 @@ class PeriodPage extends StatelessWidget {
   }
 }
 
+
+
+
+
+/*
 class Report extends StatefulWidget {
   const Report({Key? key}) : super(key: key);
 
@@ -257,23 +265,6 @@ class _ReportState extends State<Report> {
             ),
             const SizedBox(height: 20),
             // Risk Level
-            /*const Text(
-              "Risk Level :",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              "You are identified as in a low risk.",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 20),*/
             // Recommendation
             const Text(
               "We are recommending always talk to your doctor when making health decisions.",
@@ -283,12 +274,44 @@ class _ReportState extends State<Report> {
               ),
               textAlign: TextAlign.center,
             ),
+
+            const SizedBox(height: 24.0),
+                      Center(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.pinkAccent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Calendar(),
+                      ),
+                    );
+                  },
+                          child: const Text(
+                            "OK",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+
+
           ],
         ),
       ),
     );
   }
 }
+
+*/
+
+
+
+
 
 class EditPeriod extends StatefulWidget {
   @override
@@ -497,6 +520,10 @@ class _EditPeriodState extends State<EditPeriod> {
   }
 }
 
+
+
+
+
 class AnyDatePage extends StatelessWidget {
   const AnyDatePage({Key? key}) : super(key: key);
 
@@ -593,6 +620,10 @@ class AnyDatePage extends StatelessWidget {
     );
   }
 }
+
+
+
+
 
 class SelfExamPage extends StatelessWidget {
   const SelfExamPage({Key? key}) : super(key: key);
@@ -705,6 +736,10 @@ class SelfExamPage extends StatelessWidget {
     );
   }
 }
+
+
+
+
 
 class Calendar extends StatefulWidget {
   const Calendar({Key? key}) : super(key: key);
