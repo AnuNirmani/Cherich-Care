@@ -1,5 +1,6 @@
 import 'package:cherich_care_2/pages/profile/change_name_email.dart';
 import 'package:cherich_care_2/pages/profile/profile_pic.dart';
+import 'package:cherich_care_2/services/firebase.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,8 +9,53 @@ import 'settings/settings.dart';
 import 'reminders.dart';
 import 'screen_plan_p.dart';
 
-class Profile extends StatelessWidget {
+
+
+class Profile extends StatefulWidget {
+  final String? selectedProfilePic;
+  
+  const Profile({
+    Key? key, 
+    this.selectedProfilePic,
+  }) : super(key: key);
+
   @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  final FirebaseService _firebaseService = FirebaseService();
+  String username = '';
+  String email = '';
+  String profilePicture = 'assets/images/profile1.png';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+    Future<void> _loadUserData() async {
+    try {
+      final userData = await _firebaseService.getUserData();
+      setState(() {
+        username = userData['username'] ?? '';
+        email = userData['email'] ?? '';
+        // Use the selected profile picture if available, otherwise use from Firebase
+        profilePicture = widget.selectedProfilePic ?? 
+                        userData['profilePicture'] ?? 
+                        'assets/images/profile1.png';
+        print('Loaded username: $username');
+        print('Loaded email: $email');
+        print('Loaded profile picture: $profilePicture');
+      });
+    } catch (e) {
+      print('Error loading user data: $e');
+    }
+  }
+
+
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -44,14 +90,14 @@ class Profile extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (context) => const ProfilePic(), // Navigate to NewProfilePage
                   ),
-                );
+                ).then((_) => _loadUserData());
               },
               child: CircleAvatar(
                 radius: 60,
                 backgroundColor: Colors.white,
                 child: ClipOval(
                   child: Image.asset(
-                    'assets/images/profile1.png', // Replace with actual profile image asset
+                    profilePicture, // Replace with actual profile image asset
                     fit: BoxFit.cover,
                     width: 120,
                     height: 120,
@@ -67,13 +113,17 @@ class Profile extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const ChangeNameEmail()),
-                );
+                  MaterialPageRoute(builder: (context) => ChangeNameEmail(
+                    initialUsername: username,  // Pass the current username
+                    initialEmail: email, 
+                  )),
+                ).then((_) => _loadUserData());
               },
               child: TextField(
                 enabled: false, // Disable direct editing
+                controller: TextEditingController(text: username),
                 decoration: InputDecoration(
-                  hintText: 'Oshini',
+                  //hintText: 'Oshini',
                   hintStyle: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -92,16 +142,11 @@ class Profile extends StatelessWidget {
 
             // Email Field with GestureDetector
             GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const ChangeNameEmail()),
-                );
-              },
               child: TextField(
                 enabled: false, // Disable direct editing
+                controller: TextEditingController(text: email),
                 decoration: InputDecoration(
-                  hintText: 'oshilak@gmail.com',
+                  //hintText: 'oshilak@gmail.com',
                   hintStyle: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,

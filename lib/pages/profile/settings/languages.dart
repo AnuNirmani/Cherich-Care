@@ -1,5 +1,6 @@
 
 import 'package:cherich_care_2/pages/profile/settings/settings.dart';
+import 'package:cherich_care_2/services/firebase.dart';
 import 'package:flutter/material.dart';
 
 class Languages extends StatefulWidget {
@@ -10,6 +11,51 @@ class Languages extends StatefulWidget {
 }
 
 class _LanguagesState extends State<Languages> {
+  final FirebaseService _firebaseService = FirebaseService();
+  String _selectedLanguage = 'English';
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentLanguage();
+  }
+
+  Future<void> _loadCurrentLanguage() async {
+    setState(() => _isLoading = true);
+    try {
+      final language = await _firebaseService.getLanguage();
+      setState(() => _selectedLanguage = language);
+    } catch (e) {
+      print('Error loading language: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _selectLanguage(String language) async {
+    setState(() => _isLoading = true);
+    try {
+      await _firebaseService.saveLanguage(language);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Settings(selectedLanguage: language),
+        ),
+      );
+    } catch (e) {
+      print('Error saving language: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving language: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,133 +73,42 @@ class _LanguagesState extends State<Languages> {
         
       ),
       backgroundColor: Colors.pink[50],
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-
-              _buildSettingOption(
-                context,
-                title: 'English',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildLanguageOption('English'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('Sinhala'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('Tamil'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('Japanese'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('Chinese'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('Korean'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('German'),
+                    const SizedBox(height: 10),
+                    _buildLanguageOption('Spanish'),
+                    const SizedBox(height: 10),
+                  ],
+                ),
               ),
-              const SizedBox(height: 10),
-
-              _buildSettingOption(
-                context,
-                title: 'Sinhala',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-              _buildSettingOption(
-                context,
-                title: 'Tamil',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Japanese',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Chinese',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Korean',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'German',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Spanish',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
   // Helper to build individual options
-  Widget _buildSettingOption(
-      BuildContext context, {
-        required String title,
-        required String value,
-        required VoidCallback onTap,
-      }) {
+ Widget _buildLanguageOption(String language) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => _selectLanguage(language),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
         decoration: BoxDecoration(
@@ -171,13 +126,11 @@ class _LanguagesState extends State<Languages> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              title,
+              language,
               style: const TextStyle(fontSize: 16),
             ),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
-            ),
+            if (_selectedLanguage == language)
+              const Icon(Icons.check, color: Colors.pinkAccent),
           ],
         ),
       ),
