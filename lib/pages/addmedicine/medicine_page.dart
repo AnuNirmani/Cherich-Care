@@ -1,17 +1,58 @@
 import 'package:cherich_care_2/pages/addmedicine/medicine_page2.dart';
+import 'package:cherich_care_2/services/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class MedicinePage extends StatefulWidget {
+  final String medicineKey;
+  
+  const MedicinePage({Key? key, required this.medicineKey}) : super(key: key);
+  
   @override
   _MedicinePageState createState() => _MedicinePageState();
 }
 
 class _MedicinePageState extends State<MedicinePage> {
+  final FirebaseService _firebaseService = FirebaseService();
   bool isNotificationEnabled = false;
   bool isForever = false;
   int durationDays = 14;
   DateTime startDate = DateTime.now();
   String selectedInterval = "Everyday";
+  final TextEditingController medicineNameController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // Add form key
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMedicineDetails();
+  }
+
+  Future<void> _loadMedicineDetails() async {
+    try {
+      final medicineDetails = await _firebaseService.getMedicineDetails(widget.medicineKey);
+      if (medicineDetails != null) {
+        setState(() {
+          medicineNameController.text = medicineDetails['medicineName'] ?? '';
+          isNotificationEnabled = medicineDetails['isNotificationEnabled'] ?? false;
+          isForever = medicineDetails['isForever'] ?? false;
+          durationDays = medicineDetails['durationDays'] ?? 14;
+          if (medicineDetails['startDate'] != null) {
+            startDate = DateTime.parse(medicineDetails['startDate']);
+          }
+          selectedInterval = medicineDetails['selectedInterval'] ?? "Everyday";
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error loading medicine details: $e')),
+        );
+      }
+    }
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? pickedDate = await showDatePicker(
@@ -27,6 +68,42 @@ class _MedicinePageState extends State<MedicinePage> {
     }
   }
 
+  Future<void> _saveAndNavigate() async {
+    if (medicineNameController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a medicine name')),
+      );
+      return;
+    }
+
+    try {
+      await _firebaseService.updateMedicineBasicDetails(
+        widget.medicineKey,
+        medicineName: medicineNameController.text.trim(),
+        isNotificationEnabled: isNotificationEnabled,
+        isForever: isForever,
+        durationDays: durationDays,
+        startDate: startDate,
+        selectedInterval: selectedInterval,
+      );
+      
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MedicinePage2(medicineKey: widget.medicineKey),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error saving medicine details: $e')),
+        );
+      }
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,187 +112,152 @@ class _MedicinePageState extends State<MedicinePage> {
         backgroundColor: Colors.pink[100],
         elevation: 0,
         title: Text(
-          "Vienva Reminder",
+          "Medicine Reminder",
           style: TextStyle(color: Colors.pink[700]),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.pink[700]),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Notification Row
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Notification",
-                  style: TextStyle(fontSize: 18),
-                ),
-                Checkbox(
-                  value: isNotificationEnabled,
-                  onChanged: (value) {
-                    setState(() {
-                      isNotificationEnabled = value ?? false;
-                    });
-                  },
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            // Text Input Field
-            const TextField(
-              decoration: InputDecoration(
-                labelText: "Tap to edit",
-                hintText: "Vienva",
-                border: OutlineInputBorder(),
-              ),
-            ),
-            SizedBox(height: 20),
-            Divider(thickness: 1, color: Colors.black26),
-            const SizedBox(height: 20),
-            // Duration Section
-            const Text(
-              "Duration",
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                // Forever Checkbox
-                Expanded(
-                  child: Row(
-                    children: [
-                      Checkbox(
-                        value: isForever,
-                        onChanged: (value) {
-                          setState(() {
-                            isForever = value ?? false;
-                          });
-                        },
-                      ),
-                      Text("Forever"),
-                    ],
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Medicine Name",
+                    style: TextStyle(fontSize: 18),
                   ),
+                  Checkbox(
+                    value: isNotificationEnabled,
+                    onChanged: (value) {
+                      setState(() {
+                        isNotificationEnabled = value ?? false;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              // Updated TextField with validation
+              TextFormField(
+                controller: medicineNameController,
+                decoration: InputDecoration(
+                  labelText: "Tap to edit",
+                  hintText: "Medicine Name",
+                  border: OutlineInputBorder(),
+                  errorStyle: TextStyle(color: Colors.red),
                 ),
-                if (!isForever)
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                        child: TextField(
-                          keyboardType: TextInputType.number,
-                          textAlign: TextAlign.center,
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                          ),
-                          controller: TextEditingController(
-                              text: durationDays.toString()),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter a medicine name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              Divider(thickness: 1, color: Colors.black26),
+              const SizedBox(height: 20),
+              const Text(
+                "Duration",
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: isForever,
                           onChanged: (value) {
                             setState(() {
-                              durationDays = int.tryParse(value) ?? 14;
+                              isForever = value ?? false;
                             });
                           },
                         ),
-                      ),
-                      SizedBox(width: 8),
-                      Text("Days"),
-                      SizedBox(width: 8),
-                      // Increment/Decrement Buttons
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          setState(() {
-                            durationDays++;
-                          });
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.remove),
-                        onPressed: () {
-                          setState(() {
-                            if (durationDays > 1) durationDays--;
-                          });
-                        },
-                      ),
-                    ],
+                        Text("Forever"),
+                      ],
+                    ),
                   ),
-              ],
-            ),
-            SizedBox(height: 20),
-            const Divider(thickness: 1, color: Colors.black26),
-            SizedBox(height: 20),
-            // Start Date Section
-            const Text(
-              "Start Date",
-              style: TextStyle(fontSize: 18),
-            ),
-            SizedBox(height: 10),
-            GestureDetector(
-              onTap: () => _selectDate(context),
-              child: AbsorbPointer(
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText:
-                        "${startDate.day} ${_monthName(startDate.month)}, ${startDate.year}",
-                    border: OutlineInputBorder(),
+                  if (!isForever)
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 50,
+                          child: TextField(
+                            keyboardType: TextInputType.number,
+                            textAlign: TextAlign.center,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                            ),
+                            controller: TextEditingController(
+                                text: durationDays.toString()),
+                            onChanged: (value) {
+                              setState(() {
+                                durationDays = int.tryParse(value) ?? 14;
+                              });
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Text("Days"),
+                        SizedBox(width: 8),
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            setState(() {
+                              durationDays++;
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.remove),
+                          onPressed: () {
+                            setState(() {
+                              if (durationDays > 1) durationDays--;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                ],
+              ),
+              SizedBox(height: 20),
+              const Divider(thickness: 1, color: Colors.black26),
+              SizedBox(height: 20),
+              const Text(
+                "Start Date",
+                style: TextStyle(fontSize: 18),
+              ),
+              SizedBox(height: 10),
+              GestureDetector(
+                onTap: () => _selectDate(context),
+                child: AbsorbPointer(
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText:
+                          "${startDate.day} ${_monthName(startDate.month)}, ${startDate.year}",
+                      border: OutlineInputBorder(),
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            //const Divider(thickness: 1, color: Colors.black26),
-            SizedBox(height: 20),
-
-            // Interval Section
-            // const Text(
-            //   "Interval",
-            //   style: TextStyle(fontSize: 18),
-            // ),
-            // SizedBox(height: 10),
-            // DropdownButtonFormField<String>(
-            //   value: selectedInterval,
-            //   decoration: const InputDecoration(
-            //     border: OutlineInputBorder(),
-            //   ),
-            //   items: [
-            //     "Everyday",
-            //     "Per Month",
-            //     "Per Year",
-            //     "2 Months"
-            //   ].map((String interval) {
-            //     return DropdownMenuItem<String>(
-            //       value: interval,
-            //       child: Text(interval),
-            //     );
-            //   }).toList(),
-            //   onChanged: (value) {
-            //     setState(() {
-            //       selectedInterval = value!;
-            //     });
-            //   },
-            // ),
-
-            Spacer(),
-            // Next Button
-            Center(
+              SizedBox(height: 20),
+              Spacer(),
+              Center(
                 child: SizedBox(
                   width: 130,
                   height: 50,
                   child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MedicinePage2()), // Redirects to SignIn again
-                      );
-                    },
+                    onPressed: _saveAndNavigate,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.pinkAccent,
                       shape: RoundedRectangleBorder(
@@ -234,7 +276,8 @@ class _MedicinePageState extends State<MedicinePage> {
                   ),
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -242,26 +285,15 @@ class _MedicinePageState extends State<MedicinePage> {
 
   String _monthName(int month) {
     const months = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
     ];
     return months[month - 1];
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: MedicinePage(),
-  ));
+  @override
+  void dispose() {
+    medicineNameController.dispose();
+    super.dispose();
+  }
 }

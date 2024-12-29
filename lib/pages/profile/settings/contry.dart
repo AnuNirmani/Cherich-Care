@@ -1,5 +1,6 @@
 
 import 'package:cherich_care_2/pages/profile/settings/settings.dart';
+import 'package:cherich_care_2/services/firebase.dart';
 import 'package:flutter/material.dart';
 
 class Contry extends StatefulWidget {
@@ -10,6 +11,58 @@ class Contry extends StatefulWidget {
 }
 
 class _ContryState extends State<Contry> {
+
+  final FirebaseService _firebaseService = FirebaseService();
+  String _selectedCountry = 'Sri Lanka';
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentCountry();
+  }
+
+  Future<void> _loadCurrentCountry() async {
+    setState(() => _isLoading = true);
+    try {
+      final country = await _firebaseService.getCountry();
+      setState(() => _selectedCountry = country);
+    } catch (e) {
+      print('Error loading country: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _selectCountry(String country) async {
+    setState(() => _isLoading = true);
+    try {
+      await _firebaseService.saveCountry(country);
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Settings(selectedCountry: country),
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error saving country: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error saving country: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,133 +80,42 @@ class _ContryState extends State<Contry> {
         
       ),
       backgroundColor: Colors.pink[50],
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-
-              _buildSettingOption(
-                context,
-                title: 'USA',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildCountryOption('USA'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('Sri Lanka'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('UK'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('Japan'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('China'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('Korea'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('Germany'),
+                    const SizedBox(height: 10),
+                    _buildCountryOption('Spain'),
+                    const SizedBox(height: 10),
+                  ],
+                ),
               ),
-              const SizedBox(height: 10),
-
-              _buildSettingOption(
-                context,
-                title: 'Sri Lanka',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-              _buildSettingOption(
-                context,
-                title: 'UK',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Japan',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'China',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Korea',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Germany',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-
-               _buildSettingOption(
-                context,
-                title: 'Spain',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()),
-                  );
-                },
-                value: '',
-              ),
-              const SizedBox(height: 10),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
   // Helper to build individual options
-  Widget _buildSettingOption(
-      BuildContext context, {
-        required String title,
-        required String value,
-        required VoidCallback onTap,
-      }) {
+  Widget _buildCountryOption(String country) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: () => _selectCountry(country),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
         decoration: BoxDecoration(
@@ -171,13 +133,11 @@ class _ContryState extends State<Contry> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              title,
+              country,
               style: const TextStyle(fontSize: 16),
             ),
-            Text(
-              value,
-              style: const TextStyle(fontSize: 16, color: Color.fromARGB(255, 0, 0, 0)),
-            ),
+            if (_selectedCountry == country)
+              const Icon(Icons.check, color: Colors.pinkAccent),
           ],
         ),
       ),

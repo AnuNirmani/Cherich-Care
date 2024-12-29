@@ -1,4 +1,5 @@
 import 'package:cherich_care_2/pages/addmedicine/add_medicine.dart';
+import 'package:cherich_care_2/pages/calender/note_list.dart';
 import 'package:cherich_care_2/pages/home_page.dart';
 import 'package:cherich_care_2/pages/calender/notes_page.dart'; // Import the Notes page
 import 'package:flutter/material.dart';
@@ -103,12 +104,24 @@ class _NotesState extends State<Notes> {
                 _buildListItem(
                   context,
                   iconPath: "assets/images/note.png",
-                  title: "Notes",
+                  title: "Add Notes",
                   trailingWidget: const Icon(Icons.arrow_forward_ios, color: Colors.pinkAccent),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => NotesPage()),
+                    );
+                  },
+                ),
+                _buildListItem(
+                  context,
+                  iconPath: "assets/images/note3.png",
+                  title: "View Notes",
+                  trailingWidget: const Icon(Icons.arrow_forward_ios, color: Colors.pinkAccent),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => NoteList()),
                     );
                   },
                 ),

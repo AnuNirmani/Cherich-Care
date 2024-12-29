@@ -41,6 +41,8 @@ class _SignInState extends State<SignIn> {
 
         await firebaseService.saveUserData(userData);
 
+//        await firebaseService.saveUserData(userData, Auth().currentUser?.uid ?? "");
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => MyApp()),

@@ -2,25 +2,58 @@ import 'package:cherich_care_2/pages/profile/settings/contry.dart';
 import 'package:cherich_care_2/pages/profile/settings/languages.dart';
 import 'package:cherich_care_2/pages/profile/profile.dart';
 import 'package:cherich_care_2/pages/profile/settings/theam_color.dart';
+import 'package:cherich_care_2/services/firebase.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({super.key});
+  final String? selectedLanguage;
+  final String? selectedCountry;
+
+  const Settings({
+    super.key,
+    this.selectedLanguage,
+    this.selectedCountry,
+  });
 
   @override
   State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
-  // Toggle states
+  final FirebaseService _firebaseService = FirebaseService();
   bool isDoubleMastectomyEnabled = true;
   bool isPeriodTrackerEnabled = true;
+  Color _saveButtonColor = Colors.pinkAccent;
+  String _currentLanguage = 'English';
+  String _currentCountry = 'Sri Lanka';
+  bool _isLoading = false;
 
-  Color _saveButtonColor = Colors.pinkAccent; // Default color
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    setState(() => _isLoading = true);
+     try {
+      final language = widget.selectedLanguage ?? await _firebaseService.getLanguage();
+      final country = widget.selectedCountry ?? await _firebaseService.getCountry();
+      
+      setState(() {
+        _currentLanguage = language;
+        _currentCountry = country;
+      });
+    } catch (e) {
+      print('Error loading settings: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
 
   void _changeSaveButtonColor() {
     setState(() {
-      _saveButtonColor = Colors.pinkAccent; // Change to desired color, e.g., green
+      _saveButtonColor = Colors.pinkAccent;
     });
   }
 
@@ -46,34 +79,36 @@ class _SettingsState extends State<Settings> {
         ),
       ),
       backgroundColor: Colors.pink[50],
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  _buildSettingOption(
+                    context,
+                    title: 'Language',
+                    value: _currentLanguage,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Languages()),
+                      );
+                    },
+                  ),
             const SizedBox(height: 20),
-            _buildSettingOption(
-              context,
-              title: 'Language',
-              value: 'English',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Languages()),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            _buildSettingOption(
-              context,
-              title: 'Country',
-              value: 'Sri Lanka',
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Contry()),
-                );
-              },
-            ),
+                  _buildSettingOption(
+                    context,
+                    title: 'Country',
+                    value: _currentCountry,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const Contry()),
+                      );
+                    },
+                  ),
             const SizedBox(height: 20),
             _buildSettingOption(
               context,

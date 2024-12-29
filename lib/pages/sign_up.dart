@@ -1,6 +1,9 @@
 import 'package:cherich_care_2/main.dart';
+import 'package:cherich_care_2/pages/profile/change_name_email.dart';
 import 'package:cherich_care_2/pages/sign_in.dart';
 import 'package:cherich_care_2/services/auth.dart';
+import 'package:cherich_care_2/services/firebase.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 
@@ -16,8 +19,8 @@ class _SignUpState extends State<SignUp> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _emailController = TextEditingController();
-
-
+  final _usernameController = TextEditingController();
+  final FirebaseService _firebaseService = FirebaseService();
   
 
   Future<void> _launchURL(String url) async {
@@ -29,18 +32,44 @@ class _SignUpState extends State<SignUp> {
   }
 
   Future<void> _login() async {
-    try {
-      Map<String, dynamic> result = await Auth().createUserWithEmailandPassword(
-          _emailController.text, _passwordController.text);
-       
-      Navigator.push(
+  try {
+    // First create the user authentication
+    Map<String, dynamic> result = await Auth().createUserWithEmailandPassword(
+      _emailController.text,
+      _passwordController.text,
+    );
+    
+    // Save the initial user profile data
+    final FirebaseService firebaseService = FirebaseService();
+    Map<String, dynamic> userData = {
+      'username': _usernameController.text,
+      'email': _emailController.text,
+      'createdAt': ServerValue.timestamp,
+    };
+    
+    await firebaseService.saveUserData(userData);
+
+    // Navigate to SignIn page after successful signup
+    if (mounted) {
+      Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => SignIn()),
+        MaterialPageRoute(
+          builder: (context) =>  SignIn(),  // Replace ChangeNameEmail with SignIn
+        ),
       );
-    } on Exception catch (e) {
-      print(e);
+    }
+  } on Exception catch (e) {
+    print('Error during signup: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error during signup: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +109,7 @@ class _SignUpState extends State<SignUp> {
                     const SizedBox(height: 50),
                     // Username TextField
                     TextFormField(
+                      controller: _usernameController,
                       decoration: const InputDecoration(
                         labelText: "User Name*",
                         border: OutlineInputBorder(),

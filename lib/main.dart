@@ -72,8 +72,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _emailController.text = 'dineth123@gmail.com';
-    _passwordController.text = '@hitatt';
+    //_emailController.text = 'dineth123@gmail.com';
+    //_passwordController.text = '@hitatt';
+    _emailController.text = 'pp@gmail.com';
+    _passwordController.text = '12345^';
     return Scaffold(
       backgroundColor: Colors.pink.shade50,
       body: Center(
@@ -95,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
-                ),
+                ), 
                 const SizedBox(height: 40),
                 const Text(
                   'Log In With',
