@@ -1,4 +1,6 @@
 import 'package:cherich_care_2/pages/doctor_channel/search_doc.dart';
+import 'package:cherich_care_2/pages/home_page.dart';
+import 'package:cherich_care_2/services/firebase_doc_channel.dart';
 import 'package:flutter/material.dart';
 
 class ChannelDoctor extends StatefulWidget {
@@ -9,13 +11,39 @@ class ChannelDoctor extends StatefulWidget {
 }
 
 class _ChannelDoctorState extends State<ChannelDoctor> {
-  String? selectedSpecialty = 'Oncologist';
   String? selectedHospital = 'Hemas Hospital - Wattala';
-  String? selectedDate = '17-12-2014';
+  String? selectedDate;
 
-  final List<String> specialties = ['Oncologist'];
-  final List<String> hospitals = ['Hemas Hospital - Wattala', 'Asiri Hospital - Colombo', 'Nawaloka Hospital - Negombo', 'Nawaloka Hospital - Colombo'];
-  final List<String> dates = ['15-12-2014', '17-12-2014', '20-12-2014'];
+  final List<String> hospitals = [
+    'Hemas Hospital - Wattala',
+    'Asiri Hospital - Colombo',
+    'Nawaloka Hospital - Negombo',
+    'Nawaloka Hospital - Colombo'
+  ];
+  List<String> dates = [];
+  bool isLoading = true;
+  final FirebaseService _firebaseService = FirebaseService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDates();
+  }
+
+  Future<void> _loadDates() async {
+    setState(() => isLoading = true);
+    try {
+      final datesList = await _firebaseService.fetchAvailableDates();
+      setState(() {
+        dates = datesList;
+        selectedDate = dates.isNotEmpty ? dates[0] : null;
+      });
+    } catch (e) {
+      print('Error loading dates: $e');
+    } finally {
+      setState(() => isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +52,13 @@ class _ChannelDoctorState extends State<ChannelDoctor> {
         backgroundColor: Colors.pinkAccent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+        (route) => false,
+      );
+    },
         ),
         title: const Text(
           "Channel a Doctor",
@@ -40,7 +74,6 @@ class _ChannelDoctorState extends State<ChannelDoctor> {
       backgroundColor: Colors.pink.shade50,
       body: Column(
         children: [
-          // Header section
           Container(
             padding: const EdgeInsets.all(16.0),
             color: Colors.pink[50],
@@ -67,94 +100,65 @@ class _ChannelDoctorState extends State<ChannelDoctor> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Specialty Dropdown
                   const Text(
                     "Specialty*",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  DropdownButtonFormField<String>(
-                    value: selectedSpecialty,
-                    items: specialties
-                        .map((specialty) => DropdownMenuItem<String>(
-                              value: specialty,
-                              child: Text(specialty),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedSpecialty = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Row(
+                      children: [
+                        Text(
+                          'Oncologist',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ],
                     ),
                   ),
+
                   const SizedBox(height: 16),
-                  // Hospital Dropdown
                   const Text(
                     "Hospital",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  DropdownButtonFormField<String>(
+                  _buildDropdown(
                     value: selectedHospital,
-                    items: hospitals
-                        .map((hospital) => DropdownMenuItem<String>(
-                              value: hospital,
-                              child: Text(hospital),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedHospital = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
+                    items: hospitals,
+                    onChanged: (value) => setState(() => selectedHospital = value),
                   ),
+
                   const SizedBox(height: 16),
-                  // Date Dropdown
                   const Text(
                     "Date",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
-                  DropdownButtonFormField<String>(
-                    value: selectedDate,
-                    items: dates
-                        .map((date) => DropdownMenuItem<String>(
-                              value: date,
-                              child: Text(date),
-                            ))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDate = value;
-                      });
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Spacer ensures alignment
+                  isLoading
+                      ? const Center(child: CircularProgressIndicator())
+                      : _buildDropdown(
+                          value: selectedDate,
+                          items: dates,
+                          onChanged: (value) => setState(() => selectedDate = value),
+                          hint: 'Select Date',
+                        ),
+
                   const Spacer(),
-                  // Search Button
                   Center(
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  SearchDoc(),
+                            builder: (context) => SearchDoc(
+                              selectedHospital: selectedHospital ?? '',
+                              selectedDate: selectedDate ?? '',
+                            ),
                           ),
                         );
                       },
@@ -180,6 +184,28 @@ class _ChannelDoctorState extends State<ChannelDoctor> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildDropdown({
+    required String? value,
+    required List<String> items,
+    required Function(String?) onChanged,
+    String? hint,
+  }) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      hint: hint != null ? Text(hint) : null,
+      items: items.map((item) => DropdownMenuItem(
+        value: item,
+        child: Text(item),
+      )).toList(),
+      onChanged: onChanged,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
       ),
     );
   }

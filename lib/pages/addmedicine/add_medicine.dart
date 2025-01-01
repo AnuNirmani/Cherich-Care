@@ -1,5 +1,6 @@
 import 'package:cherich_care_2/pages/addmedicine/medicine_page.dart';
-import 'package:cherich_care_2/services/firebase.dart';
+import 'package:cherich_care_2/pages/notes.dart';
+import 'package:cherich_care_2/services/firebase_medecine.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,13 @@ class AddMedicine extends StatelessWidget {
         backgroundColor: Colors.pinkAccent,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Notes()),
+        (route) => false,
+      );
+    },
         ),
         title: const Text(
           'Add Medicine',

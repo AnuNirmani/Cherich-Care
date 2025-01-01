@@ -24,41 +24,43 @@ class _SignInState extends State<SignIn> {
   String? _menstruate;
 
   // Function to save user data to Firebase
-  Future<void> _saveUserData() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        final FirebaseService firebaseService = FirebaseService();
+  // In _SignInState class
+Future<void> _saveUserData() async {
+  if (_formKey.currentState!.validate()) {
+    try {
+      final FirebaseService firebaseService = FirebaseService();
 
-        Map<String, dynamic> userData = {
-          'firstName': _firstNameController.text,
-          'country': _selectedCountry,
-          'birthSex': _birthSex,
-          'breastsRemoved': _breastsRemoved,
-          'menopause': _menopause,
-          'menstruate': _menstruate,
-          'timestamp': ServerValue.timestamp,
-        };
+      Map<String, dynamic> userData = {
+        'firstName': _firstNameController.text,
+        'country': _selectedCountry,
+        'birthSex': _birthSex,
+        'breastsRemoved': _breastsRemoved,
+        'menopause': _menopause,
+        'menstruate': _menstruate,
+        'timestamp': ServerValue.timestamp,
+      };
 
-        await firebaseService.saveUserData(userData);
+      await firebaseService.saveUserData(userData);
 
-//        await firebaseService.saveUserData(userData, Auth().currentUser?.uid ?? "");
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => MyApp()),
-        );
-      } catch (e) {
-        print(e);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error saving data: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
+      if (_selectedCountry != null) {
+        await firebaseService.saveUserSettingsCountry(_selectedCountry!);
       }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp()),
+      );
+    } catch (e) {
+      print(e);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving data: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {

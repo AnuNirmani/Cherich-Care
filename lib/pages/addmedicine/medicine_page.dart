@@ -1,5 +1,5 @@
 import 'package:cherich_care_2/pages/addmedicine/medicine_page2.dart';
-import 'package:cherich_care_2/services/firebase.dart';
+import 'package:cherich_care_2/services/firebase_medecine.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
