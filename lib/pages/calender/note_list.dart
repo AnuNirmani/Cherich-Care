@@ -1,7 +1,7 @@
 import 'package:cherich_care_2/pages/calender/notes_page.dart';
 import 'package:cherich_care_2/pages/notes.dart';
 import 'package:flutter/material.dart';
-import 'package:cherich_care_2/services/firebase.dart';
+import 'package:cherich_care_2/services/firebase_note.dart';
 import 'package:intl/intl.dart';
 
 
@@ -59,15 +59,14 @@ class _NotesState extends State<NoteList> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Notes()),
+        (route) => false,
+      );
+    },
         ),
-        actions: [
-          // Add refresh button
-          IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: _loadNotes,
-          ),
-        ],
       ),
       backgroundColor: Colors.pink[50],
       body: Column(
@@ -175,17 +174,7 @@ class _NotesState extends State<NoteList> {
       ),
       
     
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const NotesPage()),
-          );
-          _loadNotes(); // Reload notes after adding new note
-        },
-        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-        child: const Icon(Icons.add),
-      ),
+      
     );
   }
 }

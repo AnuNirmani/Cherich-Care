@@ -1,17 +1,19 @@
 import 'package:cherich_care_2/pages/addmedicine/add_medicine.dart';
 import 'package:cherich_care_2/pages/calender/note_list.dart';
 import 'package:cherich_care_2/pages/home_page.dart';
-import 'package:cherich_care_2/pages/calender/notes_page.dart'; // Import the Notes page
+import 'package:cherich_care_2/pages/calender/notes_page.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Notes extends StatefulWidget {
+  const Notes({Key? key}) : super(key: key);
+
   @override
   _NotesState createState() => _NotesState();
 }
 
 class _NotesState extends State<Notes> {
-  DateTime currentDate = DateTime.now(); // Start with today's date
+  DateTime currentDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -31,29 +33,22 @@ class _NotesState extends State<Notes> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+            (route) => false,
+          ),
         ),
       ),
       backgroundColor: Colors.pink[50],
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Date picker section
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_left, color: Colors.pinkAccent, size: 28),
-                  onPressed: () {
-                    setState(() {
-                      currentDate = currentDate.subtract(const Duration(days: 1)); // Go to yesterday
-                    });
-                  },
-                ),
                 Text(
                   formattedDate,
                   style: const TextStyle(
@@ -62,19 +57,9 @@ class _NotesState extends State<Notes> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.arrow_right, color: Colors.pinkAccent, size: 28),
-                  onPressed: () {
-                    setState(() {
-                      currentDate = currentDate.add(const Duration(days: 1)); // Go to tomorrow
-                    });
-                  },
-                ),
               ],
             ),
           ),
-
-          // Options section
           Expanded(
             child: ListView(
               children: [
@@ -107,9 +92,12 @@ class _NotesState extends State<Notes> {
                   title: "Add Notes",
                   trailingWidget: const Icon(Icons.arrow_forward_ios, color: Colors.pinkAccent),
                   onTap: () {
+                    String formattedDate = DateFormat('yyyy-MM-dd').format(currentDate);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NotesPage()),
+                      MaterialPageRoute(
+                        builder: (context) => NotesPage(initialDate: formattedDate),
+                      ),
                     );
                   },
                 ),
@@ -121,7 +109,7 @@ class _NotesState extends State<Notes> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => NoteList()),
+                      MaterialPageRoute(builder: (context) => const NoteList()),
                     );
                   },
                 ),
@@ -133,12 +121,10 @@ class _NotesState extends State<Notes> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AddMedicine()),
+                      MaterialPageRoute(builder: (context) =>  AddMedicine()),
                     );
                   },
                 ),
-
-                // Save button placed close to Medicine item
                 const SizedBox(height: 16.0),
                 Center(
                   child: SizedBox(
@@ -146,9 +132,9 @@ class _NotesState extends State<Notes> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(builder: (context) => const HomePage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(

@@ -1,4 +1,5 @@
 import 'package:cherich_care_2/pages/review_symptoms.dart';
+import 'package:cherich_care_2/pages/self_count.dart';
 import 'package:flutter/material.dart';
 
 class AllBad extends StatelessWidget {
@@ -19,8 +20,12 @@ class AllBad extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
-          },
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SelfCount()),
+        (route) => false,
+      );
+    },
         ),
       ),
       backgroundColor: Colors.pink[50],

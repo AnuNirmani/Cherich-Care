@@ -1,3 +1,4 @@
+import 'package:cherich_care_2/pages/all_bad.dart';
 import 'package:cherich_care_2/pages/save_symptoms2.dart';
 import 'package:cherich_care_2/services/firebase.dart';
 import 'package:cherich_care_2/pages/save_symptoms.dart';
@@ -85,8 +86,12 @@ class _ReviewSymptomsState extends State<ReviewSymptoms> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
-          },
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => AllBad()),
+        (route) => false,
+      );
+    },
         ),
       ),
       body: Padding(

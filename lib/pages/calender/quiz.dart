@@ -1,3 +1,4 @@
+import 'package:cherich_care_2/pages/calender/calender.dart';
 import 'package:flutter/material.dart';
 
 // Example pages for navigation
@@ -21,8 +22,12 @@ class OvulationPage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
-          },
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Calendar()),
+        (route) => false,
+      );
+    },
         ),
       ),
       backgroundColor: Colors.pink.shade50,

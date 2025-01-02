@@ -1,5 +1,5 @@
 import 'package:cherich_care_2/pages/addmedicine/medicine_page3.dart';
-import 'package:cherich_care_2/services/firebase.dart';
+import 'package:cherich_care_2/services/firebase_medecine.dart';
 import 'package:flutter/material.dart';
 
 class MedicinePage2 extends StatefulWidget {

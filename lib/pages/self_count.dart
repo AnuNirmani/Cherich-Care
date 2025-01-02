@@ -1,5 +1,6 @@
 import 'package:cherich_care_2/pages/all_bad.dart';
 import 'package:cherich_care_2/pages/all_good.dart';
+import 'package:cherich_care_2/pages/self_exam.dart';
 import 'package:flutter/material.dart';
 
 class SelfCount extends StatelessWidget {
@@ -20,8 +21,12 @@ class SelfCount extends StatelessWidget {
         leading: IconButton(
          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
-          },
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) =>  SelfExam()),
+        (route) => false,
+      );
+    },
         ),
       ),
       body: Container(

@@ -1,4 +1,5 @@
 import 'package:cherich_care_2/pages/calender/calender.dart';
+import 'package:cherich_care_2/pages/home_page.dart';
 import 'package:cherich_care_2/pages/self_exam/check_area.dart';
 import 'package:cherich_care_2/pages/self_exam/feel_with.dart';
 import 'package:cherich_care_2/pages/self_exam/pay_attention.dart';
@@ -33,7 +34,13 @@ class SelfExam extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    },
         ),
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(30),

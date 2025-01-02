@@ -1,4 +1,3 @@
-
 import 'package:cherich_care_2/pages/profile/settings/settings.dart';
 import 'package:cherich_care_2/services/firebase.dart';
 import 'package:flutter/material.dart';
@@ -34,34 +33,36 @@ class _ContryState extends State<Contry> {
     }
   }
 
-  Future<void> _selectCountry(String country) async {
-    setState(() => _isLoading = true);
-    try {
-      await _firebaseService.saveCountry(country);
-      if (mounted) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Settings(selectedCountry: country),
-          ),
-        );
-      }
-    } catch (e) {
-      print('Error saving country: $e');
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error saving country: ${e.toString()}'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
+// In _ContryState class
+
+Future<void> _selectCountry(String country) async {
+  setState(() => _isLoading = true);
+  try {
+    await _firebaseService.saveCountry(country);
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Settings(selectedCountry: country),
+        ),
+      );
+    }
+  } catch (e) {
+    print('Error saving country: $e');
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error saving country: ${e.toString()}'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  } finally {
+    if (mounted) {
+      setState(() => _isLoading = false);
     }
   }
+}
   
   @override
   Widget build(BuildContext context) {

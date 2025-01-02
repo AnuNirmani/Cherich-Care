@@ -1,3 +1,4 @@
+import 'package:cherich_care_2/pages/home_page.dart';
 import 'package:cherich_care_2/pages/profile/change_name_email.dart';
 import 'package:cherich_care_2/pages/profile/profile_pic.dart';
 import 'package:cherich_care_2/services/firebase.dart';
@@ -72,8 +73,12 @@ class _ProfileState extends State<Profile> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
-          },
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+        (route) => false,
+      );
+    },
         ),
       ),
       backgroundColor: Colors.pink[50],

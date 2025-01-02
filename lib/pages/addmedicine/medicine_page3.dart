@@ -1,5 +1,6 @@
-import 'package:cherich_care_2/pages/home_page.dart';
-import 'package:cherich_care_2/services/firebase.dart';
+
+import 'package:cherich_care_2/pages/notes.dart';
+import 'package:cherich_care_2/services/firebase_medecine.dart';
 import 'package:flutter/material.dart';
 
 class MedicinePage3 extends StatefulWidget {
@@ -205,7 +206,7 @@ class _MedicinePage3State extends State<MedicinePage3> {
                         );
                         Navigator.pushReplacement(
                           context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
+                          MaterialPageRoute(builder: (context) => Notes()),
                         );
                       }
                     } catch (e) {

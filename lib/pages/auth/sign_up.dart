@@ -1,6 +1,6 @@
 import 'package:cherich_care_2/main.dart';
+import 'package:cherich_care_2/pages/auth/sign_in.dart';
 import 'package:cherich_care_2/pages/profile/change_name_email.dart';
-import 'package:cherich_care_2/pages/sign_in.dart';
 import 'package:cherich_care_2/services/auth.dart';
 import 'package:cherich_care_2/services/firebase.dart';
 import 'package:firebase_database/firebase_database.dart';

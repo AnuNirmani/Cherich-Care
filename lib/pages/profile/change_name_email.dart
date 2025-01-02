@@ -83,8 +83,12 @@ class _ChangeNameEmailState extends State<ChangeNameEmail> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
-            Navigator.pop(context);
-          },
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const Profile()),
+        (route) => false,
+      );
+    },
         ),
       ),
       backgroundColor: Colors.pink[50],
