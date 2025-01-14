@@ -1,4 +1,4 @@
-# cherich_care_2
+# CherichCare
 
 
 ## Overview
