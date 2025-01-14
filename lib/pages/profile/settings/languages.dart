@@ -1,6 +1,5 @@
-
 import 'package:cherich_care_2/pages/profile/settings/settings.dart';
-import 'package:cherich_care_2/services/firebase.dart';
+import 'package:cherich_care_2/services/firebase_lan_con.dart';
 import 'package:flutter/material.dart';
 
 class Languages extends StatefulWidget {

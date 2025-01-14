@@ -2,30 +2,6 @@ import 'package:cherich_care_2/pages/profile/profile.dart';
 import 'package:cherich_care_2/services/firebase.dart';
 import 'package:flutter/material.dart';
 
-// New Page to Navigate to after Save
-// class NewPage extends StatelessWidget {
-//   const NewPage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.pinkAccent,
-//         title: const Text('New Page'),
-//         centerTitle: true,
-//       ),
-//       body: const Center(
-//         child: Text(
-//           'You have successfully selected a profile picture!',
-//           style: TextStyle(fontSize: 20),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
 class ProfilePic extends StatefulWidget {
   const ProfilePic({super.key});
 
@@ -34,11 +10,10 @@ class ProfilePic extends StatefulWidget {
 }
 
 class _ProfilePicState extends State<ProfilePic> {
-  int _selectedProfileIndex = -1; // Keeps track of the selected profile picture
+  int _selectedProfileIndex = -1;
   final FirebaseService _firebaseService = FirebaseService();
   bool _isLoading = false;
 
-  // List of images for the profile pictures
   final List<String> _profilePics = [
     'assets/images/profile1.png',
     'assets/images/profile2.png',
@@ -48,12 +23,10 @@ class _ProfilePicState extends State<ProfilePic> {
     'assets/images/profile6.png',
   ];
 
-    Future<void> _saveProfilePicture() async {
+  Future<void> _saveProfilePicture() async {
     if (_selectedProfileIndex == -1) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a profile picture'),
-        ),
+        const SnackBar(content: Text('Please select a profile picture')),
       );
       return;
     }
@@ -61,11 +34,9 @@ class _ProfilePicState extends State<ProfilePic> {
     setState(() => _isLoading = true);
 
     try {
-      // Save the selected profile picture path to Firebase
       await _firebaseService.saveProfilePicture(_profilePics[_selectedProfileIndex]);
 
       if (mounted) {
-        // Navigate back to Profile with the selected picture
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -76,7 +47,6 @@ class _ProfilePicState extends State<ProfilePic> {
         );
       }
     } catch (e) {
-      print('Error saving profile picture: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -108,12 +78,14 @@ class _ProfilePicState extends State<ProfilePic> {
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const Profile()),
+            (route) => false,
+          ),
         ),
       ),
-      backgroundColor: Colors.pink[50], // Light pink background
+      backgroundColor: Colors.pink[50],
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -121,32 +93,40 @@ class _ProfilePicState extends State<ProfilePic> {
             Expanded(
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Two items per row
-                  mainAxisSpacing: 16.0,
-                  crossAxisSpacing: 16.0,
+                  crossAxisCount: 3, // Three items per row
+                  mainAxisSpacing: 12.0,
+                  crossAxisSpacing: 12.0,
+                  childAspectRatio: 1.0,
                 ),
                 itemCount: _profilePics.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedProfileIndex = index; // Update selected picture index
+                        _selectedProfileIndex = index;
                       });
                     },
                     child: Container(
+                      width: 80,
+                      height: 80,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: _selectedProfileIndex == index
-                              ? Colors.pinkAccent // Highlight the selected image
+                              ? Colors.pinkAccent
                               : Colors.transparent,
-                          width: 4.0,
+                          width: 3.0,
                         ),
                       ),
                       child: ClipOval(
-                        child: Image.asset(
-                          _profilePics[index],
-                          fit: BoxFit.cover,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.asset(
+                            _profilePics[index],
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
                     ),
@@ -156,12 +136,12 @@ class _ProfilePicState extends State<ProfilePic> {
             ),
             const SizedBox(height: 16),
             SizedBox(
-              width: double.infinity,
+              width: 130,
+              height: 50,
               child: ElevatedButton(
                 onPressed: _isLoading ? null : _saveProfilePicture,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.pinkAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -178,7 +158,7 @@ class _ProfilePicState extends State<ProfilePic> {
                       ),
               ),
             ),
-                      ],
+          ],
         ),
       ),
     );
