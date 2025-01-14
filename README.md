@@ -7,11 +7,11 @@ CherishCare is a newly innovated app, focusing on finding digital health solutio
 
 ## Features
 
-• Guided Self-Examinations: Details on how women can conduct a selfexamination by themselves inside the convenience of their home since early detection is the best detection. 
-• Symptom Tracking & Analysis: Inclusion of symptoms, analyzing trends; a deeper understanding of changes in breast health. 
-• Personalized Reminders: Notifications tailored as per user preferences, yet keeping intact perfect consistency regarding self-checks and health monitoring. 
-• Educational Resources: Rich and wide repository of content. 
-• A network where females could connect with peers, her health professional, and support groups for shared experiences. 
+Guided Self-Examinations: Details on how women can conduct a selfexamination by themselves inside the convenience of their home since early detection is the best detection. 
+Symptom Tracking & Analysis: Inclusion of symptoms, analyzing trends; a deeper understanding of changes in breast health. 
+Personalized Reminders: Notifications tailored as per user preferences, yet keeping intact perfect consistency regarding self-checks and health monitoring. 
+Educational Resources: Rich and wide repository of content. 
+A network where females could connect with peers, her health professional, and support groups for shared experiences. 
 
 ## Getting Started
 
