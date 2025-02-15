@@ -13,6 +13,13 @@ Personalized Reminders: Notifications tailored as per user preferences, yet keep
 Educational Resources: Rich and wide repository of content. 
 A network where females could connect with peers, her health professional, and support groups for shared experiences. 
 
+## Based on
+
+Flutter
+Dart
+Firebase
+(Please refer the V2)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
