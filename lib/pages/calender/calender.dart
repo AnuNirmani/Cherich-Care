@@ -39,6 +39,25 @@ class _CalendarState extends State<Calendar> {
     DateTime(2024, 12, 25): 'assets/images/ovulation.png',
     DateTime(2024, 12, 26): 'assets/images/fertile.png',
     DateTime(2024, 12, 27): 'assets/images/fertile.png',
+
+    DateTime(2025, 01, 6): 'assets/images/period.png',
+    DateTime(2025, 01, 7): 'assets/images/period.png',
+    DateTime(2025, 01, 1): 'assets/images/period.png',
+    DateTime(2025, 01, 2): 'assets/images/period.png',
+    DateTime(2025, 01, 3): 'assets/images/period.png',
+    DateTime(2025, 01, 4): 'assets/images/period.png',
+    DateTime(2025, 01, 5): 'assets/images/period.png',
+    DateTime(2025, 01, 13): 'assets/images/selfexam3.png',
+    DateTime(2025, 01, 28): 'assets/images/fertile.png',
+    DateTime(2025, 01, 22): 'assets/images/fertile.png',
+    DateTime(2025, 01, 23): 'assets/images/fertile.png',
+    DateTime(2025, 01, 24): 'assets/images/fertile.png',
+    DateTime(2025, 01, 25): 'assets/images/ovulation.png',
+    DateTime(2025, 01, 26): 'assets/images/fertile.png',
+    DateTime(2025, 01, 27): 'assets/images/fertile.png',
+
+    DateTime(2025, 02, 10): 'assets/images/selfexam3.png',
+    DateTime(2025, 02, 9): 'assets/images/selfexam3.png',
   };
 
   void _navigateToPage(String imagePath) {
@@ -99,7 +118,8 @@ class _CalendarState extends State<Calendar> {
               focusedDay: _focusedDay,
               calendarFormat: CalendarFormat.month,
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              onDaySelected: (selectedDay, focusedDay) {
+              onDaySelected: (selectedDay, focusedDay) 
+              {
   setState(() {
     _selectedDay = selectedDay;
     _focusedDay = focusedDay;
@@ -197,7 +217,7 @@ class _CalendarState extends State<Calendar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${_selectedDay.day}, ${_selectedDay.month}, ${_selectedDay.year}',
+                    '${_selectedDay.day}/ ${_selectedDay.month}/ ${_selectedDay.year}',
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,

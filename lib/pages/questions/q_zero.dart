@@ -49,7 +49,7 @@ class QZero extends StatelessWidget {
                 ),
               ),
               const Text(
-                "Cherish Care Screening Quiz",
+                "Cherish Care \n Risk Assessment Quiz",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 24,
@@ -60,7 +60,7 @@ class QZero extends StatelessWidget {
               
               const SizedBox(height: 20),
               const Text(
-                "Screening is important to detect breast cancer as early as possible",
+                "Screening is important to detect breast cancer \n as early as possible",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,

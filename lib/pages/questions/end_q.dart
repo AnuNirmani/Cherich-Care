@@ -21,6 +21,7 @@ class EndQ extends StatelessWidget {
               const SizedBox(height: 16),
               const Text(
                 "\nThank you for Completing the Screening Quiz!\n",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20,
                    fontWeight: FontWeight.bold,
@@ -29,12 +30,11 @@ class EndQ extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                "We appreciate your participation in this important step towards breast health awareness. Regular screenings are crucial for early detection, so be sure to keep up with your screenings and use our app’s reminder feature to stay on track."
-"If there are any changes in your circumstances, we encourage you to retake the quiz to keep your screening results up to date.\n",
+                " We appreciate your participation in this important step towards breast health awareness. Regular screenings are crucial for early detection, so be sure to keep up with your screenings and use our app’s reminder feature to stay on track."
+" If there are any changes in your circumstances, we encourage you to retake the quiz to keep your screening results up to date.\n",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
@@ -57,7 +57,7 @@ class EndQ extends StatelessWidget {
                 );
               },
               child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
               decoration: BoxDecoration(
                 color: Colors.blue[100],
                 borderRadius: BorderRadius.circular(16),

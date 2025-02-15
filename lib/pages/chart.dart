@@ -71,7 +71,7 @@ class Chart extends StatelessWidget {
                           reservedSize: 30, // Increased for better spacing
                           getTitlesWidget: (value, _) => Padding(
                             padding: const EdgeInsets.only(top: 8.0),
-                            child: Text('M${value.toInt()}'),
+                            child: Text('${value.toInt()}'),
                           ),
                         ),
                       ),

@@ -109,7 +109,7 @@ class QEight extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    "Have  you ever taken Hormone Replacement Therapy (HRT)?\nThese are pills or medicines that contain estrogen.",
+                    "Have  you ever taken Hormone Replacement Therapy (HRT)? \n\n These are pills or medicines that contain estrogen.",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

@@ -107,7 +107,7 @@ class QFive extends StatelessWidget {
              child: Column(
                children: [
                  const Text(
-                   "Have you entered menopause yet? (no period for at least 12 months)\n",
+                   "Have you entered menopause yet? \n\n (no period for at least 12 months)",
                    style: TextStyle(
                      fontSize: 20,
                      fontWeight: FontWeight.bold,

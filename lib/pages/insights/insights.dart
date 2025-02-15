@@ -76,7 +76,7 @@ class Insights extends StatelessWidget {
                   );
                 }),
                 _dotSeparator(),
-                _customButton(context, 'Risk Assessment Responces', () {
+                _customButton(context, 'Risk Assessment Responses', () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ScreeningQ()),

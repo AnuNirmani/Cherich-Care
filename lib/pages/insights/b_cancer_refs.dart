@@ -58,7 +58,7 @@ class BCancerRefs extends StatelessWidget {
                       imagePath: 'assets/images/video.png', // Path to your Videos image
                       label: "Videos",
                       onPressed: () {
-                        _launchUrl("https://www.youtube.com/@keerthikodithuwakku8114");
+                        _launchUrl("https://www.youtube.com/watch?v=KyeiZJrWrys");
                       },
                     ),
                     _buildImageButton(

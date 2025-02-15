@@ -14,7 +14,7 @@ class RiskAssesment extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.pinkAccent,
         title: const Text(
-          "Investigation Tools",
+          "Risk Assessments",
           style: TextStyle(
             color: Colors.white,
             fontSize: 25,
@@ -64,7 +64,7 @@ class RiskAssesment extends StatelessWidget {
                   Text(
                     'Risk Assessment Quiz',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 23,
                       fontWeight: FontWeight.bold,
                       color: Colors.pink,
                     ),

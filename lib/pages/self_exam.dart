@@ -161,7 +161,7 @@ class SelfExam extends StatelessWidget {
                         imagePath: 'assets/images/video.png',
                         label: "",
                         onPressed: () {
-                        _launchUrl("https://www.youtube.com/@keerthikodithuwakku8114");
+                        _launchUrl("https://www.youtube.com/watch?v=KyeiZJrWrys");
                         },
                       ),
                         const SizedBox(width: 10), // Small space between video and sound

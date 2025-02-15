@@ -70,6 +70,16 @@ class _ScreeningQState extends State<ScreeningQ> {
         return 'How much do you exercise a day?';
       case 'q12':
         return 'Has your mammography report said you have dense breasts?';
+      case 'q14':
+        return 'Do you have either of those gene mutation risks?';
+      case 'q15':
+        return 'Are you of Ashkenazi Jewish descent';
+      case 'q16':
+        return 'Any blood relatives with breast or ovarain cancer';
+      case 'q17':
+        return 'Have you tested positive for a BRCA genetic mutation?';
+      case 'q18':
+        return 'Have you had a mastectomy?';
       default:
         return 'Question $questionId';
     }
@@ -90,13 +100,12 @@ class _ScreeningQState extends State<ScreeningQ> {
         ),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  Insights()), // Navigate to HomePage
-                );
-          },
+          icon: const Icon(Icons.arrow_back, color: Colors.pinkAccent ),
+          onPressed: () => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => ScreeningQ()),
+            (route) => false,
+          ),
         ),
       ),
       backgroundColor: Colors.pink[50],
@@ -148,27 +157,33 @@ class _ScreeningQState extends State<ScreeningQ> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pinkAccent,
-                      minimumSize: Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) =>  HomePage()), // Navigate to HomePage
-                );
-                    },
-                    child: const Text(
-                      'OK',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Center(
+                    child: SizedBox(
+                      width: 100, // Small fixed width
+                      height: 36, // Small height
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pinkAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                          );
+                        },
+                        child: const Text(
+                          'OK',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ),

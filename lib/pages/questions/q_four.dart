@@ -54,6 +54,16 @@ class QFour extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const Text(
+              "ESTROGEN",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 23,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 22),
+            const Text(
               "The more estrogen you have been exposed to, the more your risk may increase.\n\n"
               "Treatments can stop your body from making estrogen or prevent hormone receptors from binding to estrogen. "
               "People who use estrogen hormone therapy for menopause symptoms may be more prone to estrogen-dependent cancers.",
