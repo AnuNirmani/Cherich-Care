@@ -119,20 +119,10 @@ class _HomePageState extends State<HomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 50.0),
-                      decoration: BoxDecoration(
-                        color: Colors.blue[100],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          '14 Days Left For Next \n Self-Exam',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                      child: Image.asset('assets/images/logo.png',
+                    height: 200),
                     ),
-                    const SizedBox(height: 50),
+                    const SizedBox(height: 40),
                     _buildMenuButton(
                       context, 
                       'Calendar', 

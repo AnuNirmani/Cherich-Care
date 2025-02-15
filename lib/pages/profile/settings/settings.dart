@@ -152,7 +152,7 @@ Future<void> _loadSettings() async {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const TheamColor()),
+                        MaterialPageRoute(builder: (context) =>  ThemeColor()),
                       );
                     },
                   ),

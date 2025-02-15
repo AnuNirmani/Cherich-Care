@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _emailController.text = 'pp@gmail.com';
+    _emailController.text = 'sara@gmail.com';
     _passwordController.text = '12345^';
     return Scaffold(
       backgroundColor: Colors.pink.shade50,
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image.asset('assets/images/logo.png',
-                    height: 60), // Replace with your logo
+                    height: 80), // Replace with your logo
                 const SizedBox(height: 16),
                 const Text(
                   'WELCOME TO \nCHERISH CARE',

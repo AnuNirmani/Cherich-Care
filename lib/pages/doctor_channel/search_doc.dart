@@ -21,14 +21,14 @@ class SearchDoc extends StatelessWidget {
  });
 
  Future<void> _launchPDF() async {
-   final Uri url = Uri.parse('https://www.doc.lk/');
+   final Uri url = Uri.parse('https://www.doc.lk/search?doctor=&hospital=0&specialization=549&date=');
    if (!await launchUrl(url)) {
      throw Exception('Could not launch $url');
    }
  }
 
  Future<void> _launchILovePDF() async {
-   final Uri url = Uri.parse('https://www.doc.lk/');
+   final Uri url = Uri.parse('https://www.doc.lk/search?doctor=&hospital=0&specialization=549&date=');
    if (!await launchUrl(url)) {
      throw Exception('Could not launch $url');
    }

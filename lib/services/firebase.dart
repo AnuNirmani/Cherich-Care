@@ -12,7 +12,11 @@ class FirebaseService {
           databaseURL: 'https://cherishcarecare-default-rtdb.firebaseio.com/')
       .ref();
 
-
+String getTodayDate() {
+  var now = DateTime.now();
+  var formatter = DateFormat('yyyy-MM-dd');
+  return formatter.format(now);
+}
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -259,16 +263,17 @@ final FirebaseAuth _auth = FirebaseAuth.instance;
 
 
   Future<Map<String, dynamic>> fetchSymptoms() async {
-    try {
+    try { 
       final userId = Auth().currentUser?.uid ?? "";
+      print(userId);
       final snapshot = await _database
           .child('users')
           .child(userId)
           .child("symptom")
-          .child("2024-12-17")
+          .child(getTodayDate())
           .child("symptoms")
           .once();
-
+print(snapshot.snapshot.value);
       if (snapshot.snapshot.value != null) {
         // Cast the data to Map<String, dynamic>
         final data = snapshot.snapshot.value;

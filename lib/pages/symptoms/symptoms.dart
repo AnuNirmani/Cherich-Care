@@ -86,7 +86,7 @@ class Symptoms extends StatelessWidget {
               }),
               _dotSeparator(),
               _customButton(context, 'Video', () {
-                _launchUrl("https://www.youtube.com/@keerthikodithuwakku8114"); // Opens the Telegram link
+                _launchUrl("https://www.youtube.com/watch?v=KyeiZJrWrys"); // Opens the Telegram link
               }, icon: Icons.videocam),
             ],
           ),

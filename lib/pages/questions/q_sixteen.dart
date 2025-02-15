@@ -1,20 +1,22 @@
 import 'package:cherich_care_2/pages/insights/insights.dart';
 import 'package:cherich_care_2/pages/questions/end_q.dart';
-import 'package:cherich_care_2/pages/questions/q_eight.dart';
-import 'package:cherich_care_2/pages/questions/q_six.dart';
-import 'package:cherich_care_2/pages/questions/q_zero.dart';
+import 'package:cherich_care_2/pages/questions/q_eleven.dart';
+import 'package:cherich_care_2/pages/questions/q_fifteen.dart';
+import 'package:cherich_care_2/pages/questions/q_seventeen.dart';
+import 'package:cherich_care_2/pages/questions/q_thirteen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-class QSeven extends StatelessWidget {
+class QSixteen extends StatelessWidget {
   final DatabaseReference _database = FirebaseDatabase.instanceFor(
     app: Firebase.app(),
     databaseURL: 'https://cherishcarecare-default-rtdb.firebaseio.com'
   ).ref();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   Future<void> _saveResponse(BuildContext context, String response) async {
     try {
       User? currentUser = _auth.currentUser;
@@ -23,7 +25,7 @@ class QSeven extends StatelessWidget {
           .child('users')
           .child(currentUser.uid)
           .child('quiz_responses')
-          .child('q07')
+          .child('q16')
           .set({
             'response': response,
             'timestamp': ServerValue.timestamp,
@@ -31,7 +33,7 @@ class QSeven extends StatelessWidget {
         if (context.mounted) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => QEight()),
+            MaterialPageRoute(builder: (context) =>  QSeventeen()),
             (route) => false,
           );
         }
@@ -66,7 +68,7 @@ class QSeven extends StatelessWidget {
           onPressed: () {
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => QSix()),
+              MaterialPageRoute(builder: (context) =>  QFifteen()),
               (route) => false,
             );
           },
@@ -85,8 +87,8 @@ class QSeven extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-            'assets/images/q5.png', // Put your image path here
-              height: 100,
+            'assets/images/q13.png', // Put your image path here
+              height: 200,
               width: 100,
               fit: BoxFit.contain,
             ),
@@ -108,7 +110,7 @@ class QSeven extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    "Have you ever given birth?",
+                    "Any blood relatives with breast or ovarain cancer",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -120,42 +122,71 @@ class QSeven extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      ElevatedButton(
-                        onPressed: () => _saveResponse(context, 'yes'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-                          side: const BorderSide(color: Colors.black, width: 1),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text(
-                          "Yes",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: () => _saveResponse(context, 'no'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          side: const BorderSide(color: Colors.black, width: 1),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text(
-                          "No",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
+                      Column(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    ElevatedButton(
+      onPressed: () => _saveResponse(context, 'yes'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+        side: const BorderSide(color: Colors.black, width: 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        minimumSize: const Size(200, 45), // Make buttons wider
+      ),
+      child: const Text(
+        "Yes",
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+    ),
+    const SizedBox(height: 18), // Add space between buttons
+    ElevatedButton(
+      onPressed: () => _saveResponse(context, 'no'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        side: const BorderSide(color: Colors.black, width: 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        minimumSize: const Size(200, 45),
+      ),
+      child: const Text(
+        "No",
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+    ),
+    const SizedBox(height: 18),
+    ElevatedButton(
+      onPressed: () => _saveResponse(context, 'I do not know'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        side: const BorderSide(color: Colors.black, width: 1),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        minimumSize: const Size(200, 45),
+      ),
+      child: const Text(
+        "I do not know",
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.black,
+        ),
+      ),
+    ),
+    const SizedBox(height: 18),
+  ],
+),
                     ],
                   ),
                 ],

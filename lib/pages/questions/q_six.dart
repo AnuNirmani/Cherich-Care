@@ -109,7 +109,7 @@ class QSix extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    "Did you start your period before age 11, or entered menopause after age 55?\n",
+                    "Did you start your period before age 11, or entered menopause after age 55?",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,

@@ -58,6 +58,7 @@ flutter:
     - assets/images/location.png
     - assets/images/logo.png
     - assets/images/logo1.png
+    - assets/images/logo2.png 
     - assets/images/medecide.png
     - assets/images/note.png
     - assets/images/note1.png
@@ -78,6 +79,7 @@ flutter:
     - assets/images/q8.png
     - assets/images/q9.png
     - assets/images/q12.png
+    - assets/images/q13.png
     - assets/images/rf1.png
     - assets/images/rf2.png
     - assets/images/rf3.png

@@ -1,13 +1,13 @@
 import 'package:cherich_care_2/pages/insights/insights.dart';
-import 'package:cherich_care_2/pages/questions/q_two.dart';
-import 'package:cherich_care_2/pages/questions/q_zero.dart';
+import 'package:cherich_care_2/pages/questions/end_q.dart';
+import 'package:cherich_care_2/pages/questions/q_fifteen.dart';
+import 'package:cherich_care_2/pages/questions/q_thirteen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-
-class QOne extends StatelessWidget {
+class QFourteen extends StatelessWidget {
  final DatabaseReference _database = FirebaseDatabase.instanceFor(
    app: Firebase.app(),
    databaseURL: 'https://cherishcarecare-default-rtdb.firebaseio.com'
@@ -16,36 +16,36 @@ class QOne extends StatelessWidget {
  final FirebaseAuth _auth = FirebaseAuth.instance;
 
  Future<void> _saveResponse(BuildContext context, String response) async {
-  try {
-    User? currentUser = _auth.currentUser;
-    if (currentUser != null) {
-      await _database
-        .child('users')
-        .child(currentUser.uid)
-        .child('quiz_responses')
-        .child('q01')
-        .set({
-          'response': response,
-          'timestamp': ServerValue.timestamp,
-      });
-      if (context.mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => QTwo()),
-          (route) => false,
-        );
-      }
-    } else {
-      throw Exception('No user logged in');
-    }
-  } catch (e) {
-    if (context.mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error saving response: $e'))
-      );
-    }
-  }
-}
+   try {
+     User? currentUser = _auth.currentUser;
+     if (currentUser != null) {
+       await _database
+         .child('users')
+         .child(currentUser.uid)
+         .child('quiz_responses')
+         .child('q14')
+         .set({
+           'response': response,
+           'timestamp': ServerValue.timestamp,
+       });
+       if (context.mounted) {
+         Navigator.pushAndRemoveUntil(
+           context,
+           MaterialPageRoute(builder: (context) => QFifteen()),
+           (route) => false,
+         );
+       }
+     } else {
+       throw Exception('No user logged in');
+     }
+   } catch (e) {
+     if (context.mounted) {
+       ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(content: Text('Error saving response: $e'))
+       );
+     }
+   }
+ }
 
  @override
  Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class QOne extends StatelessWidget {
          onPressed: () {
            Navigator.pushAndRemoveUntil(
              context,
-             MaterialPageRoute(builder: (context) => const QZero()),
+             MaterialPageRoute(builder: (context) => const QThirteen()),
              (route) => false,
            );
          },
@@ -84,11 +84,12 @@ class QOne extends StatelessWidget {
        child: Column(
          mainAxisAlignment: MainAxisAlignment.center,
          children: [
-           const Icon(
-             Icons.people_outline,
-             size: 100,
-             color: Colors.black,
-           ),
+           Image.asset(
+            'assets/images/q13.png', // Put your image path here
+              height: 100,
+              width: 100,
+              fit: BoxFit.contain,
+            ),
            const SizedBox(height: 24),
            Container(
              padding: const EdgeInsets.all(16.0),
@@ -107,7 +108,7 @@ class QOne extends StatelessWidget {
              child: Column(
                children: [
                  const Text(
-                   "Have you had breast cancer?",
+                   "Do you have either of those gene mutation risks? \n\n Chest radiation treatments befor age 30 (not x-rays) \n Childhood cancer survivor (Hodgkin Lymphoma)",
                    style: TextStyle(
                      fontSize: 20,
                      fontWeight: FontWeight.bold,
@@ -185,7 +186,7 @@ void _showExitDialog(BuildContext context) {
            onPressed: () {
              Navigator.pushAndRemoveUntil(
                context,
-               MaterialPageRoute(builder: (context) =>  Insights()),
+               MaterialPageRoute(builder: (context) => Insights()),
                (route) => false,
              );
            },
