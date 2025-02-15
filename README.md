@@ -15,9 +15,9 @@ A network where females could connect with peers, her health professional, and s
 
 ## Based on
 
-Flutter
-Dart
-Firebase
+Flutter, 
+Dart, 
+Firebase  
 (Please refer the V2)
 
 ## Getting Started
